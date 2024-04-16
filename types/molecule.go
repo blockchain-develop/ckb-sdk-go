@@ -96,15 +96,18 @@ func requireHashTypeByte(serializedHashType *molecule.Byte) ScriptHashType {
 }
 
 func UnpackScriptOpt(v *molecule.ScriptOpt) *Script {
-	s := &Script{}
 	if v.IsSome() {
+		s := &Script{}
 		rs, err := v.IntoScript()
 		if err != nil {
 			panic("Failed to turn ScriptOpt into Script in molecule params")
 		}
 		s = UnpackScript(rs)
+		return s
+	} else {
+		return nil
 	}
-	return s
+	//return s
 }
 
 func UnpackCellOutput(v *molecule.CellOutput) *CellOutput {
