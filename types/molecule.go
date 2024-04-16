@@ -129,9 +129,22 @@ func UnpackCellInput(v *molecule.CellInput) *CellInput {
 	return input
 }
 
+func UnpackDepType(v *molecule.Byte) DepType {
+	t := v.AsSlice()[0]
+	switch t {
+	case 0x00:
+		return DepTypeCode
+	case 0x01:
+		return DepTypeDepGroup
+	default:
+		return ""
+	}
+}
+
 func UnpackCellDep(v *molecule.CellDep) *CellDep {
 	c := &CellDep{}
-	c.DepType = DepType(v.DepType().AsSlice())
+	//c.DepType = DepType(v.DepType().AsSlice())
+	c.DepType = UnpackDepType(v.DepType())
 	c.OutPoint = UnpackOutPoint(v.OutPoint())
 	return c
 }
